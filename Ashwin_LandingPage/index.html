@@ -25,11 +25,16 @@
         <a href="#" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition">Home</a>
         <a href="#" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition">About</a>
         <a href="#" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition">Services</a>
+        <a href="/backend" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition">AdminLogin</a>
         <a href="#" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition">Contact Us</a>
       </nav>
       <div class="flex items-center space-x-4">
-        <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">Get Started</button>
-        <button id="mobile-menu-button" class="md:hidden text-gray-700 dark:text-gray-200">
+		<a>
+			<button onclick="loadDashboard()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
+			  Get Started
+			</button>
+		  </a>
+  <button id="mobile-menu-button" class="md:hidden text-gray-700 dark:text-gray-200">
           ☰
         </button>
         <button id="dark-mode-toggle" class="text-gray-700 dark:text-gray-200">
@@ -47,8 +52,10 @@
 
   <!-- Main Content -->
   <main class="min-h-screen flex items-center justify-center">
-    <h1 class="text-4xl font-bold animate-fade-in">Welcome to DataMetrics</h1>
-  </main>
+      
+
+    <iframe id="dashboardIframe" src="http://mydatametrics.uk/dashboard/" width="100%" height="600px" class="border rounded-lg shadow"></iframe>
+ </main>
 
   <!-- Footer -->
   <footer class="bg-white dark:bg-gray-800 mt-10 border-t border-gray-200 dark:border-gray-700">
@@ -108,6 +115,11 @@
     toggle.addEventListener('click', () => {
       document.documentElement.classList.toggle('dark');
     });
+  </script>
+    <script>
+    function loadDashboard() {
+      document.getElementById('dashboardIframe').src = 'http://mydatametrics.uk/backend/';
+    }
   </script>
 </body>
 </html>
