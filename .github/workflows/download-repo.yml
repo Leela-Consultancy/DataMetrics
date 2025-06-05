@@ -27,7 +27,7 @@ jobs:
         powershell Compress-Archive -Path * -DestinationPath repo_archive.zip
         
     - name: Upload repository as artifact (optional)
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v3.1.2
       with:
         name: repository-archive
         path: repo_archive.zip
