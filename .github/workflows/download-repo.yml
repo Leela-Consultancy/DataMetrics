@@ -19,12 +19,12 @@ jobs:
         
     - name: List repository contents (for verification)
       run: |
-        ls -la
+        dir
         echo "Repository downloaded to: $GITHUB_WORKSPACE"
         
     - name: Archive repository
       run: |
-        zip -r repo_archive.zip .
+        powershell Compress-Archive -Path * -DestinationPath repo_archive.zip
         
     - name: Upload repository as artifact (optional)
       uses: actions/upload-artifact@v3
