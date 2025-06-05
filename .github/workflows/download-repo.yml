@@ -1,0 +1,39 @@
+name: Download Repository to Runner
+
+on:
+  workflow_dispatch: # Allows manual triggering
+  push: # Triggers on push to any branch
+    branches: [ '*' ]
+  pull_request: # Triggers on pull requests
+    branches: [ '*' ]
+
+jobs:
+  download-repo:
+    runs-on: self-hosted # Uses your self-hosted runner
+    
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0 # Fetches all history and tags
+        
+    - name: List repository contents (for verification)
+      run: |
+        ls -la
+        echo "Repository downloaded to: $GITHUB_WORKSPACE"
+        
+    - name: Archive repository
+      run: |
+        zip -r repo_archive.zip .
+        
+    - name: Upload repository as artifact (optional)
+      uses: actions/upload-artifact@v3
+      with:
+        name: repository-archive
+        path: repo_archive.zip
+        
+    - name: Display download location
+      run: |
+        echo "The repository has been downloaded to the runner at:"
+        echo $GITHUB_WORKSPACE
+        echo "To access it outside the runner, use the artifact above or configure additional steps to transfer it."
