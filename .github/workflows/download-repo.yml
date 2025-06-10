@@ -50,25 +50,25 @@ jobs:
         $targetFolder = "C:\DeploymentTarget" # Must match the folder above
         Get-ChildItem -Path $targetFolder -Recurse | Select-Object FullName | Out-String -Width 200
     
-        - name: Send success email
-        if: success()
-        uses: dawidd6/action-send-mail@v3
-        with:
-          server_address: smtp.gmail.com
-          server_port: 587
-          username: ${{ secrets.EMAIL_USERNAME }}
-          password: ${{ secrets.EMAIL_PASSWORD }}
-          subject: "Success: Repository Synced to Target Folder"
-          body: |
-            The DataMetrics repository has been successfully synchronized to the target folder.
-            
-            Details:
-            - Target Location: ${{ env.TARGET_FOLDER }}
-            - Files Deployed: ${{ env.FILE_COUNT }}
-            - Triggered by: ${{ github.event_name }}
-            - Repository: ${{ github.repository }}
-            - Commit: ${{ github.sha }}
-            
-            Date: ${{ steps.date.outputs.date }}
-          to: mohammedrafi.shaik@gmail.com  # Replace with your email
-          from: GitHub Actions
+    - name: Send success email
+      if: success()
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_address: smtp.gmail.com
+        server_port: 587
+        username: ${{ secrets.EMAIL_USERNAME }}
+        password: ${{ secrets.EMAIL_PASSWORD }}
+        subject: "Success: Repository Synced to Target Folder"
+        body: |
+          The DataMetrics repository has been successfully synchronized to the target folder.
+          
+          Details:
+          - Target Location: ${{ env.TARGET_FOLDER }}
+          - Files Deployed: ${{ env.FILE_COUNT }}
+          - Triggered by: ${{ github.event_name }}
+          - Repository: ${{ github.repository }}
+          - Commit: ${{ github.sha }}
+          
+          Date: ${{ steps.date.outputs.date }}
+        to: mohammedrafi.shaik@gmail.com  # Replace with your email
+        from: GitHub Actions
