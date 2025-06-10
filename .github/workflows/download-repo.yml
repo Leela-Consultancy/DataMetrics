@@ -1,4 +1,4 @@
-name: Download Repository to Runner
+name: Sync Repository to Target Folder
 
 on:
   workflow_dispatch: # Allows manual triggering
@@ -8,7 +8,7 @@ on:
     branches: [ '*' ]
 
 jobs:
-  download-repo:
+  sync-repo:
     runs-on: self-hosted # Uses your self-hosted runner
     
     steps:
@@ -17,23 +17,35 @@ jobs:
       with:
         fetch-depth: 0 # Fetches all history and tags
         
-    - name: List repository contents (for verification)
+    - name: Create repository archive
       run: |
-        dir
-        echo "Repository downloaded to: $GITHUB_WORKSPACE"
+        powershell Compress-Archive -Path * -DestinationPath repo_archive.zip -Force
         
-    - name: Archive repository
+    - name: Create target directory if it doesn't exist
       run: |
-        powershell Compress-Archive -Path * -DestinationPath repo_archive.zip
+        $targetFolder = "C:\DeploymentTarget" # Change this to your desired target folder
+        if (-not (Test-Path -Path $targetFolder)) {
+          New-Item -ItemType Directory -Path $targetFolder -Force
+          Write-Output "Created target directory: $targetFolder"
+        }
         
-    - name: Upload repository as artifact (optional)
-      uses: actions/upload-artifact@v3
-      with:
-        name: repository-archive
-        path: repo_archive.zip
-        
-    - name: Display download location
+    - name: Copy and extract archive to target folder
       run: |
-        echo "The repository has been downloaded to the runner at:"
-        echo $GITHUB_WORKSPACE
-        echo "To access it outside the runner, use the artifact above or configure additional steps to transfer it."
+        $targetFolder = "C:\DeploymentTarget" # Must match the folder above
+        $archivePath = "$env:GITHUB_WORKSPACE\repo_archive.zip"
+        
+        # Copy the zip file
+        Copy-Item -Path $archivePath -Destination $targetFolder -Force
+        
+        # Extract the zip file
+        powershell Expand-Archive -Path "$targetFolder\repo_archive.zip" -DestinationPath $targetFolder -Force
+        
+        # Clean up the zip file in target folder (optional)
+        Remove-Item -Path "$targetFolder\repo_archive.zip" -Force
+        
+        Write-Output "Repository contents updated in: $targetFolder"
+        
+    - name: Verify contents in target folder
+      run: |
+        $targetFolder = "C:\DeploymentTarget" # Must match the folder above
+        Get-ChildItem -Path $targetFolder -Recurse | Select-Object FullName | Out-String -Width 200
