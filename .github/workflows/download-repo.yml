@@ -2,7 +2,7 @@ name: Download Repository to Runner
 
 on:
   workflow_dispatch: # Allows manual triggering
-  push: # Triggers on push to any branch
+  push: # Triggers on push to any branches
     branches: [ '*' ]
   pull_request: # Triggers on pull requests
     branches: [ '*' ]
