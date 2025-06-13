@@ -16,7 +16,7 @@ jobs:
         uses: trstringer/manual-approval@v1
         with:
           secret: ${{ secrets.APPROVAL_TOKEN }}  # Optional security
-          approvers: "team-lead,devops-admin"  # GitHub usernames who can approve
+          approvers: "rafi13us"  # GitHub usernames who can approve
 
   # --- PRODUCTION DEPLOYMENT (AFTER APPROVAL) ---
   deploy-prod:
