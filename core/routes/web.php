@@ -25,8 +25,3 @@ Route::prefix('v1')->group(function () {
     Route::post('/websites', [ApiWebsiteController::class, 'store']);
     Route::get('/websites/{website}', [ApiWebsiteController::class, 'show']);
 });
-
-
-Route::get('/', function () {
-    return view('index');
-});

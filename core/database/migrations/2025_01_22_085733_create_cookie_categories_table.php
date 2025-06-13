@@ -18,7 +18,8 @@ return new class extends Migration
                 $table->string('name');
                 $table->text('cookie_category_description');
                 $table->foreignId('website_id')->nullable()->constrained()->onDelete('set null');
-                $table->foreignId('main_table_id')->nullable()->constrained('main_tables')->onDelete('set null');
+                $table->unsignedBigInteger('main_table_id')->nullable(); // Ensure type matches the referenced column
+                $table->foreign('main_table_id')->references('id')->on('main_tables')->onDelete('set null');
                 $table->timestamps();
             });
         }

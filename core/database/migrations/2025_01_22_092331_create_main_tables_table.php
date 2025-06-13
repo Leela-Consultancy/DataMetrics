@@ -12,7 +12,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('main_tables', function (Blueprint $table) {
-            $table->id();
+            $table->id(); // This is already unsignedBigInteger by default
             $table->foreignId('website_id')->nullable()->constrained('websites')->onDelete('set null');
             $table->text('policy')->nullable();
             $table->string('cookie_category');
